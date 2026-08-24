@@ -12,90 +12,175 @@ import Notifications from "./pages/Notifications";
 import CreateOrder from "./pages/CreateOrder";
 import DeliveryOrders from "./pages/DeliveryOrders";
 
+import { AuthProvider, useAuth } from "./context/AuthContext";
+
+// Protected Route
+function ProtectedRoute({ children }) {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+}
+
+// Public Route
+function PublicRoute({ children }) {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return children;
+}
+
+function AppRoutes() {
+  return (
+    <Routes>
+
+      {/* Root → Login */}
+      <Route
+        path="/"
+        element={<Navigate to="/login" replace />}
+      />
+
+      {/* Login */}
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
+      />
+
+      {/* Dashboard */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Orders */}
+      <Route
+        path="/orders"
+        element={
+          <ProtectedRoute>
+            <Orders />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Create Order */}
+      <Route
+        path="/create-order"
+        element={
+          <ProtectedRoute>
+            <CreateOrder />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Users */}
+      <Route
+        path="/users"
+        element={
+          <ProtectedRoute>
+            <Users />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Delivery Agents */}
+      <Route
+        path="/delivery-agents"
+        element={
+          <ProtectedRoute>
+            <DeliveryAgents />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Delivery Agent - My Deliveries */}
+      <Route
+        path="/my-deliveries"
+        element={
+          <ProtectedRoute>
+            <DeliveryOrders />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Zones */}
+      <Route
+        path="/zones"
+        element={
+          <ProtectedRoute>
+            <Zones />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Areas */}
+      <Route
+        path="/areas"
+        element={
+          <ProtectedRoute>
+            <Areas />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Rate Cards */}
+      <Route
+        path="/rate-cards"
+        element={
+          <ProtectedRoute>
+            <RateCards />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Notifications */}
+      <Route
+        path="/notifications"
+        element={
+          <ProtectedRoute>
+            <Notifications />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Unknown URL → Login */}
+      <Route
+        path="*"
+        element={<Navigate to="/login" replace />}
+      />
+
+    </Routes>
+  );
+}
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-
-        {/* Login */}
-        <Route
-          path="/login"
-          element={<Login />}
-        />
-
-        {/* Dashboard */}
-        <Route
-          path="/dashboard"
-          element={<Dashboard />}
-        />
-
-        {/* Orders */}
-        <Route
-          path="/orders"
-          element={<Orders />}
-        />
-
-        {/* Create Order */}
-        <Route
-          path="/create-order"
-          element={<CreateOrder />}
-        />
-
-        {/* Users */}
-        <Route
-          path="/users"
-          element={<Users />}
-        />
-
-        {/* Delivery Agents */}
-        <Route
-          path="/delivery-agents"
-          element={<DeliveryAgents />}
-        />
-
-        {/* Delivery Agent - My Deliveries */}
-<Route
-  path="/my-deliveries"
-  element={<DeliveryOrders />}
-/>
-
-        {/* Zones */}
-        <Route
-          path="/zones"
-          element={<Zones />}
-        />
-
-        {/* Areas */}
-        <Route
-          path="/areas"
-          element={<Areas />}
-        />
-
-        {/* Rate Cards */}
-        <Route
-          path="/rate-cards"
-          element={<RateCards />}
-        />
-
-        {/* Notifications */}
-        <Route
-          path="/notifications"
-          element={<Notifications />}
-        />
-
-        {/* Default */}
-        <Route
-          path="*"
-          element={
-            <Navigate
-              to="/dashboard"
-              replace
-            />
-          }
-        />
-
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

@@ -1,8 +1,7 @@
-
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://last-mile-delivery-backend-sd06.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -36,4 +35,3 @@ api.interceptors.response.use(
 );
 
 export default api;
-

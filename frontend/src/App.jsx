@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Orders from "./pages/Orders";
 import Users from "./pages/Users";
@@ -64,6 +65,16 @@ function AppRoutes() {
         }
       />
 
+      {/* Register */}
+      <Route
+        path="/register"
+        element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        }
+      />
+
       {/* Dashboard */}
       <Route
         path="/dashboard"
@@ -114,7 +125,7 @@ function AppRoutes() {
         }
       />
 
-      {/* Delivery Agent - My Deliveries */}
+      {/* My Deliveries */}
       <Route
         path="/my-deliveries"
         element={

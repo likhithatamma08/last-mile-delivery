@@ -183,23 +183,17 @@ function Dashboard() {
                   Delivery Agents
                 </button>
 
-                {/* ZONES */}
-
                 <button
                   onClick={() => goTo("/zones")}
                 >
                   Zones
                 </button>
 
-                {/* AREAS */}
-
                 <button
                   onClick={() => goTo("/areas")}
                 >
                   Areas
                 </button>
-
-                {/* RATE CARDS */}
 
                 <button
                   onClick={() =>
@@ -208,8 +202,6 @@ function Dashboard() {
                 >
                   Rate Cards
                 </button>
-
-                {/* NOTIFICATIONS */}
 
                 <button
                   onClick={() =>
@@ -351,17 +343,23 @@ function Dashboard() {
 
             </div>
 
-            <div className="stat-card">
+            {/* =================================================
+                REVENUE - ADMIN ONLY
+            ================================================= */}
 
-              <h3>
-                Total Revenue
-              </h3>
+            {isAdmin && (
+              <div className="stat-card">
 
-              <p>
-                ₹{totalRevenue.toFixed(2)}
-              </p>
+                <h3>
+                  Total Revenue
+                </h3>
 
-            </div>
+                <p>
+                  ₹{totalRevenue.toFixed(2)}
+                </p>
+
+              </div>
+            )}
 
           </div>
 
@@ -413,8 +411,6 @@ function Dashboard() {
                   >
                     Manage Zones
                   </button>
-
-                  {/* MANAGE AREAS */}
 
                   <button
                     onClick={() =>
